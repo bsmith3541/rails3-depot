@@ -26,6 +26,12 @@
 				<li>
 					<a href="http://www..../contact">Contact</a>
 				</li>
+				<li>
+					<span id="datetime">
+						<% @time = Time.now %>
+						<%= @time.to_formatted_s(:long) %>
+					</span>
+				</li>
 			</ul>
 		</div>
 		<div id="main">
