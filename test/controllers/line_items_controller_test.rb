@@ -35,7 +35,7 @@ class LineItemsControllerTest < ActionController::TestCase
   end
 
   test "should update line_item" do
-    patch :update, id: @line_item, line_item: { product_id: @line_item.product_id }
+    patch :update, id: @line_item, line_item: { cart_id: @line_item.cart_id, product_id: @line_item.product_id }
     assert_redirected_to line_item_path(assigns(:line_item))
   end
 
@@ -45,26 +45,5 @@ class LineItemsControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to line_items_path
-  end
-
-  def new_cart_with_one_product(product_name)
-    cart = Cart.create
-    cart.add_product(products(product_name).id)
-    cart
-  end
-
-  test 'cart should create a new line item when adding a new product' do
-    cart = new_cart_with_one_product(:one)
-    assert_equal 1, cart.line_items.count
-    # Add a new product
-    cart.add_product(products(:ruby).id)
-    assert_equal 2, cart.line_items.count
-  end
-
-  test 'cart should update an existing line item when adding an existing product' do
-    cart = new_cart_with_one_product(:one)
-    # Re-add the same product
-    cart.add_product(products(:one).id)
-    assert_equal 1, cart.line_items.count
   end
 end

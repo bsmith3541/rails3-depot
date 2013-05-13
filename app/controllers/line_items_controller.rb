@@ -26,13 +26,12 @@ class LineItemsController < ApplicationController
   # POST /line_items
   # POST /line_items.json
   def create
-    @cart = current_cart
     product = Product.find(params[:product_id])
-    @line_item = @cart.add_product(product.id, product.price)
+    @line_item = @cart.line_items.build(product: product)
     reset_counter # reset the index action counter
     respond_to do |format|
       if @line_item.save
-        format.html { redirect_to @line_item.cart }
+        format.html { redirect_to @line_item.cart, notice: 'Line item was successfully created.' }
         format.json { render action: 'show', status: :created, location: @line_item }
       else
         format.html { render action: 'new' }
@@ -58,20 +57,12 @@ class LineItemsController < ApplicationController
   # DELETE /line_items/1
   # DELETE /line_items/1.json
   def destroy
-    @line_item = LineItem.find(params[:id])
     @line_item.destroy
-
     respond_to do |format|
-      if current_cart.line_items.empty?
-        format.html { redirect_to(store_url, :notice=> 'Your cart is empty') }
-      else 
-        format.html { redirect_to(current_cart, :notice=> 'Item Removed') } 
-      end
-
-      format.xml  { head :ok }
+      format.html { redirect_to line_items_url }
+      format.json { head :no_content }
     end
   end
-
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -81,7 +72,7 @@ class LineItemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def line_item_params
-      params.require(:line_item).permit(:product_id)
+      params.require(:line_item).permit(:product_id, :cart_id)
     end
 
     def reset_counter
