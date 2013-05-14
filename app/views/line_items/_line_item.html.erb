@@ -1,4 +1,8 @@
-<tr>
+<% if line_item == @current_item %>
+	<tr id="current_item">
+<% else %>
+	<tr>
+<% end %>
 	<td>
 		<%= button_to "x", line_item, method: :delete, data: { confirm: "Are you sure?" } %>
 	</td>
