@@ -43,3 +43,16 @@ Product.create(title: 'Rails Test Prescriptions',
       </p>},
   image_url: 'rtp.jpg',
   price: 34.95)
+
+Product.create(title: 'Lamborghini Reventon', 
+  description:
+  %{<p>
+      One of the most exclusive cars Lamborghini has 
+      made and will make <em>ever</em>.
+    </p>},
+  image_url: 'rtp.jpg',
+  price: 2500000.00)
+PayType.delete_all
+PayType.create(:name => "Check")
+PayType.create(:name => "Credit card")
+PayType.create(:name => "Purchase order")
