@@ -4,7 +4,9 @@
 	<tr>
 <% end %>
 	<td>
-		<%= button_to 'V', decrement_line_item_path(line_item), method: :put, remote: true %>
+		<% if @order.nil? %>
+			<%= button_to 'V', decrement_line_item_path(line_item), method: :put, remote: true %>
+		<% end %>
 	</td>
 	<td><%= line_item.quantity %>&times;</td>
 	<td><%= line_item.product.title %></td>
