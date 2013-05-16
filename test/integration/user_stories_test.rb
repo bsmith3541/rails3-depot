@@ -34,7 +34,7 @@ class UserStoriesTest < ActionDispatch::IntegrationTest
 	 		order: { name: "Dave Thomas",
 	 						 address: "123 The Street",
 	 						 email: "dave@example.com",
-	 						 pay_type: "Check" }
+	 						 pay_type_id: 13 }
 
 	  assert_response :success
 	  assert_template "index"
@@ -47,14 +47,14 @@ class UserStoriesTest < ActionDispatch::IntegrationTest
 	  order = orders[0]
 
 	  assert_equal "Dave Thomas", 			order.name
-	  assert_equal "123 The Street", 	order.address
-	  assert_equal "dave@example.com", order.email
-	  assert_equal "Check", 						order.pay_type
+	  assert_equal "123 The Street", 		order.address
+	  assert_equal "dave@example.com", 	order.email
+	  assert_equal 13, 									order.pay_type_id
 
 	  # the email should have the right info
 	  mail = ActionMailer::Base.deliveries.last
 	  assert_equal ["dave@example.com"], mail.to
-	  assert_equal "Sam Ruby <depot@example.com>", mail[:from].value
+	  assert_equal "depot@example.com", mail[:from].value
 	  assert_equal "Pragmatic Store Order Confirmation", mail.subject
 	end
 end
